@@ -4,6 +4,7 @@ using namespace std;
 Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int, int>> edges) {
     this->isDirected = isDirected;
     this->isEulerian = false;
+    this->numOfEdges = numOfEdges;
 
     for (int i = 0; i < numOfVertices; i++) {
         this->vertices.push_back(Vertex(i + 1));
@@ -34,6 +35,10 @@ Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int
 Vertex Graph::getVertex(int num)
 {
     return vertices[num];
+}
+
+vector<Vertex> Graph::getVertices() {
+    return this->vertices;
 }
 
 Neighbor* Graph::getNextNeighbor(int numIn)
@@ -126,5 +131,19 @@ void Graph::printGraph()
         vertices[i].printNeighborList();
         cout << endl;
     }
+}
+
+// creates transpose graph to a directed graph only (irrelevant if graph is not directed!).
+Graph Graph::createTransposeGraph() {
+    vector<pair<int, int>> edges;
+    pair<int, int> edge;
+    for (int i = 0; i < vertices.size(); i++) {
+        edge.second = this->vertices[i].getVertexNumber();
+        for (list<Neighbor>::iterator it = vertices[i].getNeighbors().begin(); it != vertices[i].getNeighbors().end(); ++it){
+            edge.first = it->getVertexNumber();
+            edges.push_back(edge);
+        }
+    }
+    return Graph(this->isDirected, this->vertices.size(), this->numOfEdges, edges);
 }
 

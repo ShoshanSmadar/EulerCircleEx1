@@ -5,7 +5,7 @@
 using namespace std;
 
 
-vector<pair<int, int>> getEdges(int nofEdges);
+vector<pair<int, int>> getEdges(int numOfEdges);
 
 int main() {
     char directed;
@@ -17,16 +17,19 @@ int main() {
     edges = getEdges(numOfEdges);
     Graph graph(directed == 'y', numOfVer, numOfEdges, edges);
     graph.printGraph();
+    Graph gt = graph.createTransposeGraph();
+    cout << endl;
+    gt.printGraph();
 
     return 0;
 }
 
 
-std::vector<std::pair<int, int>> getEdges(int nofEdges)
-{
-    std::vector<std::pair<int, int>> edges;
+vector<pair<int, int>> getEdges(int numOfEdges) {
+
+    vector<pair<int, int>> edges;
     pair<int, int> edge;
-    for (int i = 0; i < nofEdges; i++)
+    for (int i = 0; i < numOfEdges; i++)
     {
         cin >> edge.first >> edge.second;
         edges.push_back(edge);

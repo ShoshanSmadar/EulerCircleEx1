@@ -9,7 +9,7 @@ Vertex::Vertex(int vertexNumber) {
     this->totalDegree = 0;
 }
 
-int Vertex::getVertexNumber() {
+int Vertex::getVertexNumber() const {
     return this->vertexNumber;
 }
 

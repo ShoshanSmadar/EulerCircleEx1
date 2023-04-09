@@ -12,6 +12,7 @@ class Graph {
 private:
     bool isDirected;
     std::vector<Vertex> vertices;
+    int numOfEdges;
     bool isEulerian;
 
 public:
@@ -21,6 +22,7 @@ public:
 
     Vertex getVertex(int num);
     Neighbor* getNextNeighbor(int numIn);
+    std::vector<Vertex> getVertices();
     int getDegree(int ver) const;
     int getInDegree(int ver) const;
     int getOutDegree(int ver) const;
@@ -30,6 +32,7 @@ public:
     void addDegree(int ver);
     void addInDegree(int ver);
     void addOutDegree(int ver);
+    Graph createTransposeGraph();
 
 
     //bool isConected();

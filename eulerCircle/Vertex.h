@@ -19,7 +19,7 @@ private:
 public:
     Vertex(int vertexNumber);
     ~Vertex() = default;
-    int getVertexNumber();
+    int getVertexNumber() const;
     Neighbor* getPos() const;
     void setPos(Neighbor* pos);
     std::list<Neighbor>& getNeighbors();
