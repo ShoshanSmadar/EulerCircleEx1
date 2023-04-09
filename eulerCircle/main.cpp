@@ -17,9 +17,10 @@ int main() {
     edges = getEdges(numOfEdges);
     Graph graph(directed == 'y', numOfVer, numOfEdges, edges);
     graph.printGraph();
-    Graph gt = graph.createTransposeGraph();
-    cout << endl;
-    gt.printGraph();
+//    cout << endl;
+//    graph.visit(graph.getVertices()[0]);
+//    graph.printGraph();
+//    cout << graph.isStronglyConnected() << endl;
 
     return 0;
 }

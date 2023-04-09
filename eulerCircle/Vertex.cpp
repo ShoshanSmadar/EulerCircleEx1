@@ -13,6 +13,14 @@ int Vertex::getVertexNumber() const {
     return this->vertexNumber;
 }
 
+char Vertex::getColor() const {
+    return this->color;
+}
+
+void Vertex::setColor(char color) {
+    this->color = color;
+}
+
 Neighbor* Vertex::getPos() const {
     return pos;
 }

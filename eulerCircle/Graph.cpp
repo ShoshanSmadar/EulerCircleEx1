@@ -8,6 +8,7 @@ Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int
 
     for (int i = 0; i < numOfVertices; i++) {
         this->vertices.push_back(Vertex(i + 1));
+        vertices[i].setColor('w'); // initialize all vertices with white color.
     }
 
     for (int i = 0; i < numOfEdges; i++) {
@@ -130,6 +131,7 @@ void Graph::printGraph()
         cout << "The neighbors of vertex " << vertices[i].getVertexNumber() << " are: ";
         vertices[i].printNeighborList();
         cout << endl;
+        cout << "The color of vertex " << vertices[i].getVertexNumber() << " is: " << vertices[i].getColor() << endl;
     }
 }
 
@@ -147,3 +149,44 @@ Graph Graph::createTransposeGraph() {
     return Graph(this->isDirected, this->vertices.size(), this->numOfEdges, edges);
 }
 
+void Graph::visit(Vertex& v) {
+    v.setColor('g'); // color v in grey.
+    for (list<Neighbor>::iterator it = v.getNeighbors().begin(); it != v.getNeighbors().end(); ++it){
+        int vertexNum = it->getVertexNumber();
+        if (vertices[vertexNum-1].getColor() == 'w'){
+            it->setIsMarked(true);
+            visit(vertices[vertexNum-1]);
+        }
+    }
+    v.setColor('b');
+}
+
+bool Graph::areAllVerticesBlack() {
+    for (int i = 0; i < vertices.size(); i++) {
+        if (vertices[i].getColor() !=  'b')
+            return false;
+    }
+    return true;
+}
+
+// checks if a not directed graph is connected.
+bool Graph::isConnected() {
+    this->visit(vertices[0]);
+
+    if (this->areAllVerticesBlack())
+        return true;
+
+    return false;
+}
+
+bool Graph::isStronglyConnected() {
+    this->visit(vertices[0]);
+
+    if (this->areAllVerticesBlack()) {
+        Graph gt = createTransposeGraph();
+        gt.visit(gt.vertices[0]);
+        if (gt.areAllVerticesBlack())
+            return true;
+    }
+  return false;
+}

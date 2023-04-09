@@ -10,6 +10,7 @@ class Vertex {
 
 private:
     int vertexNumber;
+    char color;
     Neighbor* pos; // Points to the next unmarked edge.
     std::list<Neighbor> neighbors;
     int inDegree;
@@ -20,6 +21,8 @@ public:
     Vertex(int vertexNumber);
     ~Vertex() = default;
     int getVertexNumber() const;
+    char getColor() const;
+    void setColor(char color);
     Neighbor* getPos() const;
     void setPos(Neighbor* pos);
     std::list<Neighbor>& getNeighbors();

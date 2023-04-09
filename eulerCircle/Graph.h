@@ -33,10 +33,10 @@ public:
     void addInDegree(int ver);
     void addOutDegree(int ver);
     Graph createTransposeGraph();
-
-
-    //bool isConected();
-    //bool isConectedStrong();
+    void visit(Vertex& v);
+    bool areAllVerticesBlack();
+    bool isConnected();
+    bool isStronglyConnected();
 
     bool isEuler();
 
