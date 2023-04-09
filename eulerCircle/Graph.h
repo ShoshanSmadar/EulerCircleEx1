@@ -1,6 +1,7 @@
 #ifndef ALGORITHMS_EX1_GRAPH_H
 #define ALGORITHMS_EX1_GRAPH_H
 
+#include <iostream>
 #include <vector>
 #include "Vertex.h"
 #include "Neighbor.h"
@@ -15,10 +16,10 @@ private:
 
 public:
     Graph(bool isDirected, int numOfVertices, int numOfEdges, std::vector<std::pair<int, int>> edges);
-    //~Graph(); vector delets itself.
+    ~Graph() = default;
 
 
-    Vertex getVertic(int num);
+    Vertex getVertex(int num);
     Neighbor* getNextNeighbor(int numIn);
     int getDegree(int ver) const;
     int getInDegree(int ver) const;
@@ -38,8 +39,6 @@ public:
 
     //void FindEuler();
     void printGraph();
-
-
 };
 
 
