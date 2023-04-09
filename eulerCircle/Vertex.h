@@ -3,6 +3,7 @@
 
 #include "Neighbor.h"
 #include <list>
+#include <iostream>
 
 
 class Vertex {
@@ -18,9 +19,10 @@ private:
 public:
     Vertex(int vertexNumber);
     ~Vertex() = default;
+    int getVertexNumber();
     Neighbor* getPos() const;
     void setPos(Neighbor* pos);
-    const std::list<Neighbor>& getNeighbors() const;
+    std::list<Neighbor>& getNeighbors();
     void setNeighbors(const std::list<Neighbor>& neighbors);
     int getInDegree() const;
     void setInDegree(int inDegree);
@@ -29,6 +31,7 @@ public:
     int getTotalDegree() const;
     void setTotalDegree(int totalDegree);
     void addEdge(int vertex);
+    void printNeighborList();
 };
 
 

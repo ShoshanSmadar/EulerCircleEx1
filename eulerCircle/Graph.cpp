@@ -11,6 +11,7 @@ Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int
 
     for (int i = 0; i < numOfEdges; i++) {
         this->vertices[edges[i].first-1].addEdge(edges[i].second);
+
         if (isDirected) {
             this->addInDegree(edges[i].first-1);
             this->addOutDegree(edges[i].second-1);
@@ -22,9 +23,15 @@ Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int
             this->addDegree(edges[i].second-1);
         }
     }
+
+    // set pos to be the first neighbor in the list of every neighbor.
+    for (int i = 0; i < numOfVertices; i++) {
+        list<Neighbor>::iterator it = vertices[i].getNeighbors().begin();
+        this->vertices[i].setPos(&*it);
+    }
 }
 
-Vertex Graph::getVertic(int num)
+Vertex Graph::getVertex(int num)
 {
     return vertices[num];
 }
@@ -98,7 +105,7 @@ bool Graph::isEuler()
         }
         return true;
     }
-    else//case not directed
+    else //case not directed
     {
        // if (!isConected())
         //    return false;
@@ -111,12 +118,13 @@ bool Graph::isEuler()
     }
 }
 
-/*void Graph::printGraph()
+void Graph::printGraph()
 {
     for (int i = 0; i < vertices.size(); i++)
     {
-        cout >> vertices[i].
+        cout << "The neighbors of vertex " << vertices[i].getVertexNumber() << " are: ";
+        vertices[i].printNeighborList();
+        cout << endl;
     }
-
-}*/
+}
 

@@ -9,6 +9,10 @@ Vertex::Vertex(int vertexNumber) {
     this->totalDegree = 0;
 }
 
+int Vertex::getVertexNumber() {
+    return this->vertexNumber;
+}
+
 Neighbor* Vertex::getPos() const {
     return pos;
 }
@@ -17,7 +21,7 @@ void Vertex::setPos(Neighbor* pos) {
     this->pos = pos;
 }
 
-const list<Neighbor>& Vertex::getNeighbors() const {
+list<Neighbor>& Vertex::getNeighbors() {
     return neighbors;
 }
 
@@ -51,6 +55,12 @@ void Vertex::setTotalDegree(int totalDegree) {
 
 void Vertex::addEdge(int vertex) {
     this->neighbors.push_back(Neighbor(vertex));
+}
+
+void Vertex::printNeighborList() {
+    for (list<Neighbor>::iterator it = neighbors.begin(); it != neighbors.end(); ++it){
+        cout << it->getVertexNumber() << " ";
+    }
 }
 
 

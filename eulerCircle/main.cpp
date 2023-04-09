@@ -9,13 +9,14 @@ vector<pair<int, int>> getEdges(int nofEdges);
 
 int main() {
     char directed;
-    int nofVer;
-    int nofEdges;
+    int numOfVer;
+    int numOfEdges;
     std::vector<std::pair<int, int>> edges;
-    cout << "Is the graph directed: y/n";
-    cin >> directed >> nofVer >> nofEdges;
-    edges = getEdges(nofEdges);
-    Graph graph(directed == 'y', nofVer, nofEdges, edges);
+    cout << "Is the graph directed: y/n" << endl;
+    cin >> directed >> numOfVer >> numOfEdges;
+    edges = getEdges(numOfEdges);
+    Graph graph(directed == 'y', numOfVer, numOfEdges, edges);
+    graph.printGraph();
 
     return 0;
 }
