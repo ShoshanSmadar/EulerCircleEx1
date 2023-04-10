@@ -23,13 +23,16 @@ Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int
             this->vertices[edges[i].second-1].addEdge(edges[i].first);
             this->addDegree(edges[i].first-1);
             this->addDegree(edges[i].second-1);
+            this->vertices[edges[i].first - 1].getNeighbors().back().setMutualVertex(&(this->vertices[edges[i].second - 1].getNeighbors().back()));
+            this->vertices[edges[i].second - 1].getNeighbors().back().setMutualVertex(&(this->vertices[edges[i].first - 1].getNeighbors().back()));
         }
     }
 
     // set pos to be the first neighbor in the list of every neighbor.
     for (int i = 0; i < numOfVertices; i++) {
-        list<Neighbor>::iterator it = vertices[i].getNeighbors().begin();
-        this->vertices[i].setPos(&*it);
+       // list<Neighbor>::iterator it = vertices[i].getNeighbors().begin();
+        //this->vertices[i].setPos(&*it);
+        this->vertices[i].setPos(this->vertices[i].getNeighbors().begin());
     }
 }
 
@@ -42,10 +45,21 @@ vector<Vertex> Graph::getVertices() {
     return this->vertices;
 }
 
-Neighbor* Graph::getNextNeighbor(int numIn)
+/*Neighbor* Graph::getNextNeighbor(int numIn)
+{
+    return vertices[numIn].getPos();
+}*/
+
+//list<Neighbor>::iterator Graph::getNextNeighbor(int numIn)
+//{
+//    return vertices[numIn].getPos();
+//}
+
+std::list<Neighbor>::list::iterator Graph::getNextNeighbor(int numIn)
 {
     return vertices[numIn].getPos();
 }
+
 
 int Graph::getDegree(int ver) const
 {
@@ -102,8 +116,8 @@ bool Graph::isEuler()
 {
     if (this->isDirected)
     {
-       // if (!isConectedStrong())
-       //     return false;
+        if (!isStronglyConnected())
+            return false;
         for (int i = 0; i < (int)vertices.size(); i++)
         {
             if (vertices[i].getInDegree() != vertices[i].getOutDegree())
@@ -113,8 +127,8 @@ bool Graph::isEuler()
     }
     else //case not directed
     {
-       // if (!isConected())
-        //    return false;
+        if (!isConnected())
+            return false;
         for (int i = 0; i < vertices.size(); i++)
         {
             if (vertices[i].getTotalDegree() % 2 != 0)
@@ -123,6 +137,69 @@ bool Graph::isEuler()
         return true;
     }
 }
+void Graph::FindCircuit(Vertex& v, std::list<int>& L)
+{
+    Vertex currV = v;
+    //L.push_back(v.getVertexNumber());//init list
+
+    while (v.getPos() != v.getNeighbors().end())//while v has no unused edges
+    {
+        //find unused edge in currV:
+        if (currV.getPos()->isEdgeMarked())
+        {
+            std::list<Neighbor>::iterator it = currV.getPos();
+            it++;
+            currV.setPos(it);
+        }
+        else {
+        //get the neighbor of unused edge:
+        //Vertex u = //vertices[currV.getPos()->getVertexNumber()-1];
+        //mark edges:
+        currV.getPos()->setIsMarked(true);
+        if (!checkkIsDirected())
+        {
+            currV.getPos()->getmutualVertex()->setIsMarked(true);
+        }
+        //append to list:
+        L.push_back(currV.getVertexNumber());
+        currV = vertices[currV.getPos()->getVertexNumber() - 1];
+        }
+    }
+}
+
+void Graph::FindEuler()
+{
+    list<int> L;
+    FindCircuit(this->vertices[0], L);
+    int thisVer = *L.begin();
+    L.pop_front();
+    cout << thisVer;
+    while (L.begin() != L.end())
+    {
+        if (vertices[thisVer].getPos() != vertices[thisVer].getNeighbors().end())
+        {
+            Vertex& v = vertices[thisVer -1];
+            list<int> newL;
+            FindCircuit(v, newL);
+            L.pop_front();
+            L.splice(L.begin(), newL);
+        }
+        thisVer = *L.begin();
+        L.pop_front();
+        cout << thisVer;
+    }
+}
+
+/*void printList(list<int> L)
+{
+    auto it = L.begin();
+    while (it != L.end())
+    {
+        cout << it;
+        it++;
+    }
+}*/
+
 
 void Graph::printGraph()
 {
@@ -132,6 +209,19 @@ void Graph::printGraph()
         vertices[i].printNeighborList();
         cout << endl;
         cout << "The color of vertex " << vertices[i].getVertexNumber() << " is: " << vertices[i].getColor() << endl;
+    }
+}
+
+void Graph::initEdgeMark()
+{
+    for (int i = 0; i < vertices.size(); i++)
+    {
+        auto it = vertices[i].getNeighbors().begin();
+        while (it != vertices[i].getNeighbors().end())
+        {
+            it->setIsMarked(false);
+            it++;
+        }
     }
 }
 
@@ -179,6 +269,11 @@ bool Graph::isConnected() {
     return false;
 }
 
+bool Graph::checkkIsDirected()
+{
+    return isDirected;
+}
+
 bool Graph::isStronglyConnected() {
     this->visit(vertices[0]);
 
@@ -190,3 +285,5 @@ bool Graph::isStronglyConnected() {
     }
   return false;
 }
+
+

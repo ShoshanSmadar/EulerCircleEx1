@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <list>
 #include "Vertex.h"
 #include "Neighbor.h"
 
@@ -21,7 +22,9 @@ public:
 
 
     Vertex getVertex(int num);
-    Neighbor* getNextNeighbor(int numIn);
+    //Neighbor* getNextNeighbor(int numIn);
+    //list<Neighbor>::iterator getNextNeighbor(int numIn);
+    std::list<Neighbor>::list::iterator getNextNeighbor(int numIn);
     std::vector<Vertex> getVertices();
     int getDegree(int ver) const;
     int getInDegree(int ver) const;
@@ -36,12 +39,14 @@ public:
     void visit(Vertex& v);
     bool areAllVerticesBlack();
     bool isConnected();
+    bool checkkIsDirected();
     bool isStronglyConnected();
-
+    void FindCircuit(Vertex& v, std::list<int>&);
     bool isEuler();
-
-    //void FindEuler();
+    //list<int>& FindCircuit(Vertex v);
+    void FindEuler();
     void printGraph();
+    void initEdgeMark();
 };
 
 

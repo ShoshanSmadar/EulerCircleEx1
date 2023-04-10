@@ -17,6 +17,8 @@ public:
     int getVertexNumber() const;
     bool isEdgeMarked() const;
     void setIsMarked(bool isMarked);
+    Neighbor* getmutualVertex();
+    void setMutualVertex(Neighbor* N);
 };
 
 
