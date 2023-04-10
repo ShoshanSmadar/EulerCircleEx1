@@ -3,7 +3,7 @@ using namespace std;
 
 Vertex::Vertex(int vertexNumber) {
     this->vertexNumber = vertexNumber;
-    this->pos = nullptr;
+    //this->pos = nullptr;
     this->inDegree = 0;
     this->outDegree = 0;
     this->totalDegree = 0;
@@ -21,13 +21,21 @@ void Vertex::setColor(char color) {
     this->color = color;
 }
 
-Neighbor* Vertex::getPos() const {
+/*Neighbor* Vertex::getPos() const {
+    return pos;
+}*/
+/*void Vertex::setPos(Neighbor* pos) {
+    this->pos = pos;
+}*/
+std::list<Neighbor>::iterator Vertex::getPos() const {
     return pos;
 }
 
-void Vertex::setPos(Neighbor* pos) {
-    this->pos = pos;
+void Vertex::setPos(const std::list<Neighbor>::iterator& newpos) {
+    this->pos = newpos;
 }
+
+
 
 list<Neighbor>& Vertex::getNeighbors() {
     return neighbors;
