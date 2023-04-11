@@ -17,3 +17,11 @@ bool Neighbor::isEdgeMarked() const {
 void Neighbor::setIsMarked(bool isMarked) {
     this->isMarked = isMarked;
 }
+
+void Neighbor::setMutualVertex(Neighbor *neighbor) {
+    this->mutualVertex = neighbor;
+}
+
+Neighbor* Neighbor::getMutualVertex() {
+    return this->mutualVertex;
+}

@@ -12,7 +12,7 @@ Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int
     }
 
     for (int i = 0; i < numOfEdges; i++) {
-        this->vertices[edges[i].first-1].addEdge(edges[i].second);
+        Neighbor& neighbor1 =  this->vertices[edges[i].first-1].addEdge(edges[i].second);
 
         if (isDirected) {
             this->addInDegree(edges[i].first-1);
@@ -20,16 +20,19 @@ Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int
         }
         else
         {
-            this->vertices[edges[i].second-1].addEdge(edges[i].first);
+            Neighbor& neighbor2 = this->vertices[edges[i].second-1].addEdge(edges[i].first);
             this->addDegree(edges[i].first-1);
             this->addDegree(edges[i].second-1);
+            neighbor1.setMutualVertex(&neighbor2);
+            neighbor2.setMutualVertex(&neighbor1);
+
         }
     }
 
     // set pos to be the first neighbor in the list of every neighbor.
     for (int i = 0; i < numOfVertices; i++) {
         list<Neighbor>::iterator it = vertices[i].getNeighbors().begin();
-        this->vertices[i].setPos(&*it);
+        this->vertices[i].setPos(it);
     }
 }
 
@@ -38,11 +41,11 @@ Vertex Graph::getVertex(int num)
     return vertices[num];
 }
 
-vector<Vertex> Graph::getVertices() {
+vector<Vertex>& Graph::getVertices() {
     return this->vertices;
 }
 
-Neighbor* Graph::getNextNeighbor(int numIn)
+list<Neighbor>::iterator Graph::getNextNeighbor(int numIn)
 {
     return vertices[numIn].getPos();
 }
@@ -89,7 +92,7 @@ void Graph::addDegree(int ver)
 //the method adds 1 to the degree
 void Graph::addInDegree(int ver)
 {
-    vertices[ver].setOutDegree(getInDegree(ver) + 1);
+    vertices[ver].setInDegree(getInDegree(ver) + 1);
 }
 
 //the method adds 1 to the degree
@@ -102,8 +105,8 @@ bool Graph::isEuler()
 {
     if (this->isDirected)
     {
-       // if (!isConectedStrong())
-       //     return false;
+        if (!isStronglyConnected())
+            return false;
         for (int i = 0; i < (int)vertices.size(); i++)
         {
             if (vertices[i].getInDegree() != vertices[i].getOutDegree())
@@ -154,7 +157,7 @@ void Graph::visit(Vertex& v) {
     for (list<Neighbor>::iterator it = v.getNeighbors().begin(); it != v.getNeighbors().end(); ++it){
         int vertexNum = it->getVertexNumber();
         if (vertices[vertexNum-1].getColor() == 'w'){
-            it->setIsMarked(true);
+            //it->setIsMarked(true);
             visit(vertices[vertexNum-1]);
         }
     }
@@ -189,4 +192,47 @@ bool Graph::isStronglyConnected() {
             return true;
     }
   return false;
+}
+
+list<int> Graph::findCircuit(int vertex) {
+    list<int> result;
+    result.push_back(vertex);
+
+    while (this->getVertices()[vertex-1].getPos() != this->getVertices()[vertex-1].getNeighbors().end()) {
+        list<Neighbor>::iterator nextUnmarkedEdge = this->getVertices()[vertex - 1].getPos();
+//        cout << "checking vertex " << vertex << " and edge " << nextUnmarkedEdge->getVertexNumber() << endl;
+        nextUnmarkedEdge->setIsMarked(true);
+        this->getVertices()[vertex-1].setPos(next(nextUnmarkedEdge, 1));
+//        if (nextUnmarkedEdge->getMutualVertex()) {
+//            nextUnmarkedEdge->getMutualVertex()->setIsMarked(true);
+//        }
+        vertex = nextUnmarkedEdge->getVertexNumber();
+
+
+        result.push_back(vertex);
+    }
+    return result;
+}
+
+void Graph::pasteToList(std::list<int> l1, std::list<int> l2, std::list<int>::iterator& iteratorToPaste) {
+
+    for (int i = 0; i < l2.size()-1; i++) {
+        l1.insert(next(iteratorToPaste,i+1), *next(l2.begin(), i+1));
+    }
+}
+
+std::list<int> Graph::findEulerCircle() {
+    std::list<int> result = findCircuit(1);
+    int totalExtraListSize = 0;
+
+    for (int i = 0; i < result.size(); i++) {
+        int vertexNumber = *next(result.begin(), i);
+        if (this->vertices[vertexNumber-1].getPos() != this->vertices[vertexNumber-1].getNeighbors().end()) {
+            std::list<int> lst = findCircuit(vertexNumber);
+            std::list<int>::iterator iteratorToPaste = next(result.begin(), totalExtraListSize + 1);
+            pasteToList(result, lst, iteratorToPaste);
+            totalExtraListSize += lst.size();
+        }
+    }
+    return result;
 }

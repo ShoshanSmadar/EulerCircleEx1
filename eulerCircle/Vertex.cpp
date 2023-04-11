@@ -3,7 +3,6 @@ using namespace std;
 
 Vertex::Vertex(int vertexNumber) {
     this->vertexNumber = vertexNumber;
-    this->pos = nullptr;
     this->inDegree = 0;
     this->outDegree = 0;
     this->totalDegree = 0;
@@ -21,11 +20,11 @@ void Vertex::setColor(char color) {
     this->color = color;
 }
 
-Neighbor* Vertex::getPos() const {
+list<Neighbor>::iterator Vertex::getPos() const {
     return pos;
 }
 
-void Vertex::setPos(Neighbor* pos) {
+void Vertex::setPos(list<Neighbor>::iterator pos) {
     this->pos = pos;
 }
 
@@ -61,8 +60,10 @@ void Vertex::setTotalDegree(int totalDegree) {
     this->totalDegree = totalDegree;
 }
 
-void Vertex::addEdge(int vertex) {
-    this->neighbors.push_back(Neighbor(vertex));
+Neighbor& Vertex::addEdge(int vertex) {
+    Neighbor neighbor(vertex);
+    this->neighbors.push_back(neighbor);
+    return neighbor;
 }
 
 void Vertex::printNeighborList() {

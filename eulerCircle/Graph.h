@@ -21,8 +21,8 @@ public:
 
 
     Vertex getVertex(int num);
-    Neighbor* getNextNeighbor(int numIn);
-    std::vector<Vertex> getVertices();
+    std::list<Neighbor>::iterator getNextNeighbor(int numIn);
+    std::vector<Vertex>& getVertices();
     int getDegree(int ver) const;
     int getInDegree(int ver) const;
     int getOutDegree(int ver) const;
@@ -37,10 +37,11 @@ public:
     bool areAllVerticesBlack();
     bool isConnected();
     bool isStronglyConnected();
-
+    std::list<int> findCircuit(int vertex);
     bool isEuler();
+    void pasteToList(std::list<int> l1, std::list<int> l2, std::list<int>::iterator& iteratorToPaste);
 
-    //void FindEuler();
+    std::list<int> findEulerCircle();
     void printGraph();
 };
 
