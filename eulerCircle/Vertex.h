@@ -25,6 +25,7 @@ public:
     void setColor(char color);
     std::list<Neighbor>::iterator getPos() const;
     void setPos(std::list<Neighbor>::iterator pos);
+    void updatePos();
     std::list<Neighbor>& getNeighbors();
     void setNeighbors(const std::list<Neighbor>& neighbors);
     int getInDegree() const;

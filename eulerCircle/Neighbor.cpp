@@ -3,10 +3,10 @@
 Neighbor::Neighbor(int vertexNumber) {
     this->vertexNumber = vertexNumber;
     this->isMarked = false;
-    this->mutualVertex = nullptr;
+    this->mutualEdge = nullptr;
 }
 
-int Neighbor::getVertexNumber() const {
+int Neighbor::getDestination() const {
     return vertexNumber;
 }
 
@@ -18,10 +18,10 @@ void Neighbor::setIsMarked(bool isMarked) {
     this->isMarked = isMarked;
 }
 
-void Neighbor::setMutualVertex(Neighbor *neighbor) {
-    this->mutualVertex = neighbor;
+void Neighbor::setMutualEdge(Neighbor* neighbor) {
+    this->mutualEdge = neighbor;
 }
 
-Neighbor* Neighbor::getMutualVertex() {
-    return this->mutualVertex;
+Neighbor* Neighbor::getMutualEdge() {
+    return this->mutualEdge;
 }

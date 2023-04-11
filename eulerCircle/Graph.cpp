@@ -23,8 +23,8 @@ Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int
             Neighbor& neighbor2 = this->vertices[edges[i].second-1].addEdge(edges[i].first);
             this->addDegree(edges[i].first-1);
             this->addDegree(edges[i].second-1);
-            neighbor1.setMutualVertex(&neighbor2);
-            neighbor2.setMutualVertex(&neighbor1);
+            neighbor1.setMutualEdge(&neighbor2);
+            neighbor2.setMutualEdge(&neighbor1);
 
         }
     }
@@ -145,7 +145,7 @@ Graph Graph::createTransposeGraph() {
     for (int i = 0; i < vertices.size(); i++) {
         edge.second = this->vertices[i].getVertexNumber();
         for (list<Neighbor>::iterator it = vertices[i].getNeighbors().begin(); it != vertices[i].getNeighbors().end(); ++it){
-            edge.first = it->getVertexNumber();
+            edge.first = it->getDestination();
             edges.push_back(edge);
         }
     }
@@ -155,9 +155,8 @@ Graph Graph::createTransposeGraph() {
 void Graph::visit(Vertex& v) {
     v.setColor('g'); // color v in grey.
     for (list<Neighbor>::iterator it = v.getNeighbors().begin(); it != v.getNeighbors().end(); ++it){
-        int vertexNum = it->getVertexNumber();
+        int vertexNum = it->getDestination();
         if (vertices[vertexNum-1].getColor() == 'w'){
-            //it->setIsMarked(true);
             visit(vertices[vertexNum-1]);
         }
     }
@@ -199,16 +198,17 @@ list<int> Graph::findCircuit(int vertex) {
     result.push_back(vertex);
 
     while (this->getVertices()[vertex-1].getPos() != this->getVertices()[vertex-1].getNeighbors().end()) {
-        list<Neighbor>::iterator nextUnmarkedEdge = this->getVertices()[vertex - 1].getPos();
-//        cout << "checking vertex " << vertex << " and edge " << nextUnmarkedEdge->getVertexNumber() << endl;
-        nextUnmarkedEdge->setIsMarked(true);
-        this->getVertices()[vertex-1].setPos(next(nextUnmarkedEdge, 1));
-//        if (nextUnmarkedEdge->getMutualVertex()) {
-//            nextUnmarkedEdge->getMutualVertex()->setIsMarked(true);
-//        }
-        vertex = nextUnmarkedEdge->getVertexNumber();
+        list<Neighbor>::iterator currentEdge = this->getVertices()[vertex - 1].getPos();
 
+        currentEdge->setIsMarked(true);
+        this->getVertices()[vertex-1].updatePos();
 
+        if (currentEdge->getMutualEdge()) {
+            currentEdge->getMutualEdge()->setIsMarked(true);
+
+            vertices[currentEdge->getDestination() - 1].updatePos();
+        }
+        vertex = currentEdge->getDestination();
         result.push_back(vertex);
     }
     return result;

@@ -28,6 +28,12 @@ void Vertex::setPos(list<Neighbor>::iterator pos) {
     this->pos = pos;
 }
 
+void Vertex::updatePos() {
+    while (this->pos->isEdgeMarked()) {
+        pos++;
+    }
+}
+
 list<Neighbor>& Vertex::getNeighbors() {
     return neighbors;
 }
@@ -63,12 +69,12 @@ void Vertex::setTotalDegree(int totalDegree) {
 Neighbor& Vertex::addEdge(int vertex) {
     Neighbor neighbor(vertex);
     this->neighbors.push_back(neighbor);
-    return neighbor;
+    return this->neighbors.back();
 }
 
 void Vertex::printNeighborList() {
     for (list<Neighbor>::iterator it = neighbors.begin(); it != neighbors.end(); ++it){
-        cout << it->getVertexNumber() << " ";
+        cout << it->getDestination() << " ";
     }
 }
 
