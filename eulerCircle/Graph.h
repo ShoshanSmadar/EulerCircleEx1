@@ -31,9 +31,8 @@ public:
     bool isStronglyConnected();
     std::list<int> findCircuit(int vertex);
     bool isEulerian();
-    void pasteToList(std::list<int> l1, std::list<int> l2, std::list<int>::iterator& iteratorToPaste);
+    void pasteToList(std::list<int>& l1, const std::list<int>& l2, std::list<int>::iterator& iteratorToPaste);
     std::list<int> findEulerCircle();
-    void printGraph();
 };
 
 

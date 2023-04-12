@@ -103,18 +103,6 @@ bool Graph::isEulerian()
     }
 }
 
-
-//void Graph::printGraph()
-//{
-//    for (int i = 0; i < vertices.size(); i++)
-//    {
-//        cout << "The neighbors of vertex " << vertices[i].getVertexNumber() << " are: ";
-//        vertices[i].printNeighborList();
-//        cout << endl;
-//        cout << "The color of vertex " << vertices[i].getVertexNumber() << " is: " << vertices[i].getColor() << endl;
-//    }
-//}
-
 // creates transpose graph to a directed graph only (irrelevant if graph is not directed!).
 Graph Graph::createTransposeGraph() {
     vector<pair<int, int>> edges;
@@ -195,7 +183,7 @@ list<int> Graph::findCircuit(int vertex) {
 }
 
 // pastes 'l2' to 'l1' from 'iteratorToPaste'.
-void Graph::pasteToList(std::list<int> l1, std::list<int> l2, std::list<int>::iterator& iteratorToPaste) {
+void Graph::pasteToList(std::list<int>& l1, const std::list<int>& l2, std::list<int>::iterator& iteratorToPaste) {
 
     for (int i = 0; i < l2.size()-1; i++) {
         l1.insert(next(iteratorToPaste,i+1), *next(l2.begin(), i+1));
@@ -205,15 +193,13 @@ void Graph::pasteToList(std::list<int> l1, std::list<int> l2, std::list<int>::it
 // gets an Eulerian graph and returns an Euler circle.
 std::list<int> Graph::findEulerCircle() {
     std::list<int> result = findCircuit(1);
-    int totalExtraListSize = 0;
 
     for (int i = 0; i < result.size(); i++) {
         int vertexNumber = *next(result.begin(), i);
         if (this->vertices[vertexNumber-1].getPos() != this->vertices[vertexNumber-1].getNeighbors().end()) {
             std::list<int> lst = findCircuit(vertexNumber);
-            std::list<int>::iterator iteratorToPaste = next(result.begin(), totalExtraListSize + 1);
+            std::list<int>::iterator iteratorToPaste = next(result.begin(), i);
             pasteToList(result, lst, iteratorToPaste);
-            totalExtraListSize += lst.size();
         }
     }
     return result;

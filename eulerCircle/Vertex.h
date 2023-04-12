@@ -34,7 +34,6 @@ public:
     int getTotalDegree() const;
     void setTotalDegree(int totalDegree);
     Neighbor& addEdge(int vertex);
-//    void printNeighborList();
 };
 
 

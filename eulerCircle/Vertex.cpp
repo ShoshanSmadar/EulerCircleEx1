@@ -70,11 +70,6 @@ Neighbor& Vertex::addEdge(int vertex) {
     return this->neighbors.back();
 }
 
-//void Vertex::printNeighborList() {
-//    for (list<Neighbor>::iterator it = neighbors.begin(); it != neighbors.end(); ++it){
-//        cout << it->getDestination() << " ";
-//    }
-//}
 
 
 
