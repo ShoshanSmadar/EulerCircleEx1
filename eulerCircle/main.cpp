@@ -329,7 +329,35 @@ void test_EulerCircle_undirected(){
     }
 }
 
+void test_EulerCircle_undirected_2(){
+    Graph graph(false, 6, 10, {
+            {1,2},
+            {1,3},
+            {2,3},
+            {2,4},
+            {2,5},
+            {3,4},
+            {3,5},
+            {4,5},
+            {4,6},
+            {5,6}});
+
+    list<int> expected_Euler_circle = {1,2,4,5,6,4,3,5,2,3,1};
+    list<int> actual_circuit = graph.findEulerCircle();
+    cout << "actual circle is: ";
+    printList(actual_circuit);
+    cout << "expected circle is: ";
+    printList(expected_Euler_circle);
+    if (compareLists(expected_Euler_circle, actual_circuit))  {
+        cout << "test_EulerCircle_undirected_2: 1" << endl;
+    } else {
+        cout << "test_EulerCircle_undirected_2: FAILED expected: " << convertListToString(expected_Euler_circle) << " actual: " << convertListToString(
+                actual_circuit) << endl;
+    }
+}
+
 int main() {
+
 //    // Directed graph:
 //    cout << "Directed: " << endl;
 //    test_IsConnected_Directed();
@@ -357,31 +385,32 @@ int main() {
 //    test_IsEulerian_undirected_notEulerian();
 //
 //    test_EulerCircle_undirected();
-//
-//    return 0;
-    char isDirected;
-    int numOfVertices;
-    int numOfEdges;
-    vector<pair<int, int>> edges;
-    cout << "Is the graph directed: y/n" << endl;
-    cin >> isDirected >> numOfVertices >> numOfEdges;
-    edges = getEdges(numOfEdges);
-    bool isValid = checkValidation(isDirected, numOfVertices, numOfEdges, edges);
-    if (isValid) {
-        Graph graph(isDirected == 'y', numOfVertices, numOfEdges, edges);
-        if (graph.isEulerian()) {
-            cout << "The graph is aulerian" << endl;
-            list<int> EulerCircle = graph.findEulerCircle();
-            printList(EulerCircle);
-        }
-        else {
-            cout << "The graph is not aulerian" << endl;
-        }
-    }
-    else {
-        cout << "invalid input!" << endl;
-    }
+    test_EulerCircle_undirected_2();
+
     return 0;
+//    char isDirected;
+//    int numOfVertices;
+//    int numOfEdges;
+//    vector<pair<int, int>> edges;
+//    cout << "Is the graph directed: y/n" << endl;
+//    cin >> isDirected >> numOfVertices >> numOfEdges;
+//    edges = getEdges(numOfEdges);
+//    bool isValid = checkValidation(isDirected, numOfVertices, numOfEdges, edges);
+//    if (isValid) {
+//        Graph graph(isDirected == 'y', numOfVertices, numOfEdges, edges);
+//        if (graph.isEulerian()) {
+//            cout << "The graph is aulerian" << endl;
+//            list<int> EulerCircle = graph.findEulerCircle();
+//            printList(EulerCircle);
+//        }
+//        else {
+//            cout << "The graph is not aulerian" << endl;
+//        }
+//    }
+//    else {
+//        cout << "invalid input!" << endl;
+//    }
+//    return 0;
 }
 
 vector<pair<int, int>> getEdges(int numOfEdges) {
