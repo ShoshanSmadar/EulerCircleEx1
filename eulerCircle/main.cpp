@@ -363,15 +363,20 @@ int main() {
     int numOfVertices;
     int numOfEdges;
     vector<pair<int, int>> edges;
-    cout << "Is the graph isDirected: y/n" << endl;
+    cout << "Is the graph directed: y/n" << endl;
     cin >> isDirected >> numOfVertices >> numOfEdges;
     edges = getEdges(numOfEdges);
     bool isValid = checkValidation(isDirected, numOfVertices, numOfEdges, edges);
     if (isValid) {
         Graph graph(isDirected == 'y', numOfVertices, numOfEdges, edges);
-        if (graph.isEulerian()) {}
-        list<int> EulerCircle = graph.findEulerCircle();
-        printList(EulerCircle);
+        if (graph.isEulerian()) {
+            cout << "The graph is aulerian" << endl;
+            list<int> EulerCircle = graph.findEulerCircle();
+            printList(EulerCircle);
+        }
+        else {
+            cout << "The graph is not aulerian" << endl;
+        }
     }
     else {
         cout << "invalid input!" << endl;
@@ -412,8 +417,12 @@ bool checkValidation(char isDirected, int numOfVertices, int numOfEdges, vector<
 }
 
 void printList(list<int> myList) {
-    for (int curr : myList) {
-        cout << curr << " ";
+    cout << "(";
+
+    for (int i = 0; i < myList.size(); i++) {
+        cout << *(next(myList.begin(),i));
+        if (i < myList.size() - 1)
+            cout << ",";
     }
-    cout << endl;
+    cout << ")" << endl;
 }
