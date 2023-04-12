@@ -344,7 +344,7 @@ void test_EulerCircle_undirected_2(){
 
     list<int> expected_Euler_circle = {1,2,4,5,6,4,3,5,2,3,1};
     list<int> actual_circuit = graph.findEulerCircle();
-    cout << "actual circle is: ";
+    cout << "actual circle is:   ";
     printList(actual_circuit);
     cout << "expected circle is: ";
     printList(expected_Euler_circle);
@@ -358,33 +358,33 @@ void test_EulerCircle_undirected_2(){
 
 int main() {
 
-//    // Directed graph:
-//    cout << "Directed: " << endl;
-//    test_IsConnected_Directed();
-//    test_IsConnected_Directed_NotConnected();
-//
-//    test_FindCircuit_Directed();
-//    test_FindCircuit_Directed_2();
-//
-//    test_IsEulerian_directed();
-//    test_IsEulerian_notEulerian();
-//    test_IsEulerian_notConnected();
-//
-//    test_EulerCircle_Directed();
-//    test_EulerCircle_Directed_2();
-//
-//    // Undirected graph:
-//    cout << endl<< endl  << "Undirected:" << endl;
-//    test_IsConnected_Undirected();
-//    test_IsConnected_Undirected_NotConnceted();
-//
-//    test_FindCircuit_Undirected();
-//    test_FindCircuit_Undirected_2();
-//
-//    test_IsEulerian_undirected();
-//    test_IsEulerian_undirected_notEulerian();
-//
-//    test_EulerCircle_undirected();
+    // Directed graph:
+    cout << "Directed: " << endl;
+    test_IsConnected_Directed();
+    test_IsConnected_Directed_NotConnected();
+
+    test_FindCircuit_Directed();
+    test_FindCircuit_Directed_2();
+
+    test_IsEulerian_directed();
+    test_IsEulerian_notEulerian();
+    test_IsEulerian_notConnected();
+
+    test_EulerCircle_Directed();
+    test_EulerCircle_Directed_2();
+
+    // Undirected graph:
+    cout << endl<< endl  << "Undirected:" << endl;
+    test_IsConnected_Undirected();
+    test_IsConnected_Undirected_NotConnceted();
+
+    test_FindCircuit_Undirected();
+    test_FindCircuit_Undirected_2();
+
+    test_IsEulerian_undirected();
+    test_IsEulerian_undirected_notEulerian();
+
+    test_EulerCircle_undirected();
     test_EulerCircle_undirected_2();
 
     return 0;
