@@ -3,7 +3,6 @@ using namespace std;
 
 Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int, int>> edges) {
     this->isDirected = isDirected;
-    this->isEulerian = false;
     this->numOfEdges = numOfEdges;
 
     for (int i = 0; i < numOfVertices; i++) {
@@ -11,6 +10,7 @@ Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int
         vertices[i].setColor('w'); // initialize all vertices with white color.
     }
 
+    // create edges accordingly.
     for (int i = 0; i < numOfEdges; i++) {
         Neighbor& neighbor1 =  this->vertices[edges[i].first-1].addEdge(edges[i].second);
 
@@ -23,6 +23,8 @@ Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int
             Neighbor& neighbor2 = this->vertices[edges[i].second-1].addEdge(edges[i].first);
             this->addDegree(edges[i].first-1);
             this->addDegree(edges[i].second-1);
+
+            // set mutual pointers to edges if the graph is not directed.
             neighbor1.setMutualEdge(&neighbor2);
             neighbor2.setMutualEdge(&neighbor1);
 
@@ -36,18 +38,8 @@ Graph::Graph(bool isDirected, int numOfVertices, int numOfEdges, vector<pair<int
     }
 }
 
-Vertex Graph::getVertex(int num)
-{
-    return vertices[num];
-}
-
 vector<Vertex>& Graph::getVertices() {
     return this->vertices;
-}
-
-list<Neighbor>::iterator Graph::getNextNeighbor(int numIn)
-{
-    return vertices[numIn].getPos();
 }
 
 int Graph::getDegree(int ver) const
@@ -65,78 +57,63 @@ int Graph::getOutDegree(int ver) const
     return vertices[ver].getOutDegree();
 }
 
-//the method reduces the degree by one
-void Graph::reduceDegree(int ver)
-{
-    vertices[ver].setTotalDegree(getDegree(ver)-1);
-}
-
-//the method reduces the degree by one
-void Graph::reduceInDegree(int ver)
-{
-    vertices[ver].setOutDegree(getInDegree(ver)-1);
-}
-
-//the method reduces the degree by one
-void Graph::reduceOutDegree(int ver)
-{
-    vertices[ver].setOutDegree(getOutDegree(ver)-1);
-}
-
-//the method adds 1 to the degree
+// adds 1 to the degree.
 void Graph::addDegree(int ver)
 {
     vertices[ver].setTotalDegree(getDegree(ver) + 1);
 }
 
-//the method adds 1 to the degree
+// adds 1 to the in degree.
 void Graph::addInDegree(int ver)
 {
     vertices[ver].setInDegree(getInDegree(ver) + 1);
 }
 
-//the method adds 1 to the degree
+// adds 1 to the out degree.
 void Graph::addOutDegree(int ver)
 {
     vertices[ver].setOutDegree(getOutDegree(ver) + 1);
 }
 
-bool Graph::isEuler()
+// checks if the graph is Eulerian.
+bool Graph::isEulerian()
 {
     if (this->isDirected)
     {
         if (!isStronglyConnected())
-            return false;
+            return false;  // if a directed graph is not strongly connected, is  not Eulerian.
         for (int i = 0; i < (int)vertices.size(); i++)
         {
-            if (vertices[i].getInDegree() != vertices[i].getOutDegree())
+            if (vertices[i].getInDegree() != vertices[i].getOutDegree()) // if a directed graph is strongly connected,
+                                                                         // check if in degree equals out degree.
                 return false;
         }
         return true;
     }
     else //case not directed
     {
-       // if (!isConected())
-        //    return false;
+        if (!isConnected())
+            return false;  // if an undirected graph is not connected, is  not Eulerian.
         for (int i = 0; i < vertices.size(); i++)
         {
-            if (vertices[i].getTotalDegree() % 2 != 0)
+            if (vertices[i].getTotalDegree() % 2 != 0)  // if an Undirected graph is connected, check if all degrees are even.
                 return false;
         }
         return true;
     }
 }
 
-void Graph::printGraph()
-{
-    for (int i = 0; i < vertices.size(); i++)
-    {
-        cout << "The neighbors of vertex " << vertices[i].getVertexNumber() << " are: ";
-        vertices[i].printNeighborList();
-        cout << endl;
-        cout << "The color of vertex " << vertices[i].getVertexNumber() << " is: " << vertices[i].getColor() << endl;
-    }
-}
+
+//void Graph::printGraph()
+//{
+//    for (int i = 0; i < vertices.size(); i++)
+//    {
+//        cout << "The neighbors of vertex " << vertices[i].getVertexNumber() << " are: ";
+//        vertices[i].printNeighborList();
+//        cout << endl;
+//        cout << "The color of vertex " << vertices[i].getVertexNumber() << " is: " << vertices[i].getColor() << endl;
+//    }
+//}
 
 // creates transpose graph to a directed graph only (irrelevant if graph is not directed!).
 Graph Graph::createTransposeGraph() {
@@ -163,6 +140,7 @@ void Graph::visit(Vertex& v) {
     v.setColor('b');
 }
 
+// checks of all vertices of the graph are black.
 bool Graph::areAllVerticesBlack() {
     for (int i = 0; i < vertices.size(); i++) {
         if (vertices[i].getColor() !=  'b')
@@ -171,7 +149,7 @@ bool Graph::areAllVerticesBlack() {
     return true;
 }
 
-// checks if a not directed graph is connected.
+// checks if an undirected graph is connected.
 bool Graph::isConnected() {
     this->visit(vertices[0]);
 
@@ -181,6 +159,7 @@ bool Graph::isConnected() {
     return false;
 }
 
+// checks if a directed graph is strongly connected.
 bool Graph::isStronglyConnected() {
     this->visit(vertices[0]);
 
@@ -193,6 +172,7 @@ bool Graph::isStronglyConnected() {
   return false;
 }
 
+// finds a circle in the graph from 'vertex'.
 list<int> Graph::findCircuit(int vertex) {
     list<int> result;
     result.push_back(vertex);
@@ -214,6 +194,7 @@ list<int> Graph::findCircuit(int vertex) {
     return result;
 }
 
+// pastes 'l2' to 'l1' from 'iteratorToPaste'.
 void Graph::pasteToList(std::list<int> l1, std::list<int> l2, std::list<int>::iterator& iteratorToPaste) {
 
     for (int i = 0; i < l2.size()-1; i++) {
@@ -221,6 +202,7 @@ void Graph::pasteToList(std::list<int> l1, std::list<int> l2, std::list<int>::it
     }
 }
 
+// gets an Eulerian graph and returns an Euler circle.
 std::list<int> Graph::findEulerCircle() {
     std::list<int> result = findCircuit(1);
     int totalExtraListSize = 0;

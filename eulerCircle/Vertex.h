@@ -13,9 +13,9 @@ private:
     char color;
     std::list<Neighbor>::iterator pos; // Points to the next unmarked edge.
     std::list<Neighbor> neighbors;
-    int inDegree;
-    int outDegree;
-    int totalDegree;
+    int inDegree; // in use when graph is directed.
+    int outDegree; // in use when graph is directed.
+    int totalDegree; // in use when graph is undirected.
 
 public:
     Vertex(int vertexNumber);
@@ -27,7 +27,6 @@ public:
     void setPos(std::list<Neighbor>::iterator pos);
     void updatePos();
     std::list<Neighbor>& getNeighbors();
-    void setNeighbors(const std::list<Neighbor>& neighbors);
     int getInDegree() const;
     void setInDegree(int inDegree);
     int getOutDegree() const;
@@ -35,7 +34,7 @@ public:
     int getTotalDegree() const;
     void setTotalDegree(int totalDegree);
     Neighbor& addEdge(int vertex);
-    void printNeighborList();
+//    void printNeighborList();
 };
 
 

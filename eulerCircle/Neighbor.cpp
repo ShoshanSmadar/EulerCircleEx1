@@ -6,6 +6,7 @@ Neighbor::Neighbor(int vertexNumber) {
     this->mutualEdge = nullptr;
 }
 
+// returns the destination of an edge (from the vertex that is calling the method).
 int Neighbor::getDestination() const {
     return vertexNumber;
 }

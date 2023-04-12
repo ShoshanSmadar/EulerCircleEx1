@@ -28,6 +28,7 @@ void Vertex::setPos(list<Neighbor>::iterator pos) {
     this->pos = pos;
 }
 
+// set pos to be the next unmarked edge.
 void Vertex::updatePos() {
     while (this->pos->isEdgeMarked()) {
         pos++;
@@ -36,10 +37,6 @@ void Vertex::updatePos() {
 
 list<Neighbor>& Vertex::getNeighbors() {
     return neighbors;
-}
-
-void Vertex::setNeighbors(const list<Neighbor>& neighbors) {
-    this->neighbors = neighbors;
 }
 
 int Vertex::getInDegree() const {
@@ -66,17 +63,18 @@ void Vertex::setTotalDegree(int totalDegree) {
     this->totalDegree = totalDegree;
 }
 
+// adds a neighbor to 'vertex' and returns it.
 Neighbor& Vertex::addEdge(int vertex) {
     Neighbor neighbor(vertex);
     this->neighbors.push_back(neighbor);
     return this->neighbors.back();
 }
 
-void Vertex::printNeighborList() {
-    for (list<Neighbor>::iterator it = neighbors.begin(); it != neighbors.end(); ++it){
-        cout << it->getDestination() << " ";
-    }
-}
+//void Vertex::printNeighborList() {
+//    for (list<Neighbor>::iterator it = neighbors.begin(); it != neighbors.end(); ++it){
+//        cout << it->getDestination() << " ";
+//    }
+//}
 
 
 

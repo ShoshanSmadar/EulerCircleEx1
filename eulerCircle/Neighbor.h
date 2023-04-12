@@ -8,8 +8,8 @@ class Neighbor {
 private:
     int vertexNumber;
     bool isMarked;
-    Neighbor* mutualEdge; // Pointer from edge (x,y) to (y,x) if the graph is not directed.
-                            // Points to nullptr if the graph is directed.
+    Neighbor* mutualEdge; // Pointer from edge (x,y) to (y,x) if the graph is undirected.
+                          // Points to nullptr if the graph is directed.
 
 public:
     Neighbor(int vertexNumber);

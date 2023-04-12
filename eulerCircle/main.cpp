@@ -126,7 +126,7 @@ void test_IsEulerian_directed() {
             {5,3},
             {6,5}});
     bool expected_isEulerian= true;
-    bool actual_isEulerian = graph.isEuler();
+    bool actual_isEulerian = graph.isEulerian();
 
     cout << "test_IsEulerian_directed: " << (expected_isEulerian == actual_isEulerian) << endl;
 }
@@ -143,7 +143,7 @@ void test_IsEulerian_notEulerian() {
             {5,3},
             {6,5}});
     bool expected_isEulerian= false;
-    bool actual_isEulerian = graph.isEuler();
+    bool actual_isEulerian = graph.isEulerian();
 
     cout << "test_IsEulerian_notEulerian: " << (expected_isEulerian == actual_isEulerian) << endl;
 }
@@ -159,7 +159,7 @@ void test_IsEulerian_notConnected() {
             {5,3},
             {6,5}});
     bool expected_isEulerian= false;
-    bool actual_isEulerian = graph.isEuler();
+    bool actual_isEulerian = graph.isEulerian();
 
     cout << "test_IsEulerian_notConnected: " << (expected_isEulerian == actual_isEulerian) << endl;
 }
@@ -260,7 +260,7 @@ void test_IsEulerian_undirected() {
             {5,3},
             {6,5}});
     bool expected_isEulerian= true;
-    bool actual_isEulerian = graph.isEuler();
+    bool actual_isEulerian = graph.isEulerian();
 
     cout << "test_IsEulerian_undirected: " << (expected_isEulerian == actual_isEulerian) << endl;
 }
@@ -277,7 +277,7 @@ void test_IsEulerian_undirected_notEulerian() {
             {5,3},
             {6,5}});
     bool expected_isEulerian= false;
-    bool actual_isEulerian = graph.isEuler();
+    bool actual_isEulerian = graph.isEulerian();
 
     cout << "test_IsEulerian_undirected_notEulerian: " << (expected_isEulerian == actual_isEulerian) << endl;
 }
@@ -293,7 +293,7 @@ void test_IsEulerian_undirected_notConnected() {
             {5,3},
             {6,5}});
     bool expected_isEulerian= false;
-    bool actual_isEulerian = graph.isEuler();
+    bool actual_isEulerian = graph.isEulerian();
 
     cout << "test_IsEulerian_undirected_notConnected: " << (expected_isEulerian == actual_isEulerian) << endl;
 }
