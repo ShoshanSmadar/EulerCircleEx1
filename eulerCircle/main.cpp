@@ -6,6 +6,16 @@ using namespace std;
 
 
 vector<pair<int, int>> getEdges(int numOfEdges);
+bool checkValidation(char isDirected, int numOfVertices, int numOfEdges, vector<pair<int, int>> edges);
+void printList(list<int> myList);
+
+string convertListToString(list<int> myList) {
+    string result;
+    for (int curr : myList) {
+        result += " " + std::to_string(curr);
+    }
+    return result;
+}
 
 Graph BuildDefaultUnDirectedGraph() {
     bool is_directed = false;
@@ -22,14 +32,6 @@ Graph BuildDefaultUnDirectedGraph() {
                                                {4,6},
                                                {5,6}};
     return Graph(is_directed, num_vertices, numEdges, edges);
-}
-
-std::string printList(std::list<int> myList) {
-    string result;
-    for (int curr : myList) {
-        result += ", " + std::to_string(curr);
-    }
-    return result;
 }
 
 bool compareLists(std::list<int> l1, std::list<int> l2) {
@@ -88,7 +90,8 @@ void test_FindCircuit_Directed() {
     if (compareLists(expected_circuit, actual_circuit))  {
         cout << "test_FindCircuit_Directed: 1" << endl;
     } else {
-        cout << "test_FindCircuit_Directed: FAILED expected: " << printList(expected_circuit)  << " actual: " << printList(actual_circuit) << endl;
+        cout << "test_FindCircuit_Directed: FAILED expected: " << convertListToString(expected_circuit) << " actual: " << convertListToString(
+                actual_circuit) << endl;
     }
 }
 
@@ -109,7 +112,8 @@ void test_FindCircuit_Directed_2() {
     if (compareLists(expected_circuit, actual_circuit))  {
         cout << "test_FindCircuit_Directed_2: 1" << endl;
     } else {
-        cout << "test_FindCircuit_Directed_2: FAILED expected: " << printList(expected_circuit)  << " actual: " << printList(actual_circuit) << endl;
+        cout << "test_FindCircuit_Directed_2: FAILED expected: " << convertListToString(expected_circuit) << " actual: " << convertListToString(
+                actual_circuit) << endl;
     }
 }
 
@@ -176,7 +180,8 @@ void test_EulerCircle_Directed(){
     if (compareLists(expected_Euler_circle, actual_circuit))  {
         cout << "test_EulerCircle_Directed: 1" << endl;
     } else {
-        cout << "test_EulerCircle_Directed: FAILED expected: " << printList(expected_Euler_circle)  << " actual: " << printList(actual_circuit) << endl;
+        cout << "test_EulerCircle_Directed: FAILED expected: " << convertListToString(expected_Euler_circle) << " actual: " << convertListToString(
+                actual_circuit) << endl;
     }
 }
 
@@ -195,7 +200,8 @@ void test_EulerCircle_Directed_2(){
     if (compareLists(expected_Euler_circle, actual_circuit))  {
         cout << "test_EulerCircle_Directed_2: 1" << endl;
     } else {
-        cout << "test_EulerCircle_Directed_2: FAILED expected: " << printList(expected_Euler_circle)  << " actual: " << printList(actual_circuit) << endl;
+        cout << "test_EulerCircle_Directed_2: FAILED expected: " << convertListToString(expected_Euler_circle) << " actual: " << convertListToString(
+                actual_circuit) << endl;
     }
 }
 
@@ -231,7 +237,8 @@ void test_FindCircuit_Undirected() {
     if (compareLists(expected_circuit, actual_circuit))  {
         cout << "test_FindCircuit_Undirected: 1" << endl;
     } else {
-        cout << "test_FindCircuit_Undirected: FAILED expected: " << printList(expected_circuit)  << " actual: " << printList(actual_circuit) << endl;
+        cout << "test_FindCircuit_Undirected: FAILED expected: " << convertListToString(expected_circuit) << " actual: " << convertListToString(
+                actual_circuit) << endl;
     }
 }
 
@@ -243,7 +250,8 @@ void test_FindCircuit_Undirected_2() {
     if (compareLists(expected_circuit, actual_circuit))  {
         cout << "test_FindCircuit_Undirected_2: 1" << endl;
     } else {
-        cout << "test_FindCircuit_Undirected_2: FAILED expected: " << printList(expected_circuit)  << " actual: " << printList(actual_circuit) << endl;
+        cout << "test_FindCircuit_Undirected_2: FAILED expected: " << convertListToString(expected_circuit) << " actual: " << convertListToString(
+                actual_circuit) << endl;
     }
 }
 
@@ -316,57 +324,60 @@ void test_EulerCircle_undirected(){
     if (compareLists(expected_Euler_circle, actual_circuit))  {
         cout << "test_EulerCircle_undirected: 1" << endl;
     } else {
-        cout << "test_EulerCircle_undirected: FAILED expected: " << printList(expected_Euler_circle)  << " actual: " << printList(actual_circuit) << endl;
+        cout << "test_EulerCircle_undirected: FAILED expected: " << convertListToString(expected_Euler_circle) << " actual: " << convertListToString(
+                actual_circuit) << endl;
     }
 }
 
 int main() {
-    // Directed graph:
-    cout << "Directed: " << endl;
-    test_IsConnected_Directed();
-    test_IsConnected_Directed_NotConnected();
-
-    test_FindCircuit_Directed();
-    test_FindCircuit_Directed_2();
-
-    test_IsEulerian_directed();
-    test_IsEulerian_notEulerian();
-    test_IsEulerian_notConnected();
-
-    test_EulerCircle_Directed();
-    test_EulerCircle_Directed_2();
-
-    // Undirected graph:
-    cout << endl<< endl  << "Undirected:" << endl;
-    test_IsConnected_Undirected();
-    test_IsConnected_Undirected_NotConnceted();
-
-    test_FindCircuit_Undirected();
-    test_FindCircuit_Undirected_2();
-
-    test_IsEulerian_undirected();
-    test_IsEulerian_undirected_notEulerian();
-
-    test_EulerCircle_undirected();
-
-    return 0;
-    char directed;
-    int numOfVer;
+//    // Directed graph:
+//    cout << "Directed: " << endl;
+//    test_IsConnected_Directed();
+//    test_IsConnected_Directed_NotConnected();
+//
+//    test_FindCircuit_Directed();
+//    test_FindCircuit_Directed_2();
+//
+//    test_IsEulerian_directed();
+//    test_IsEulerian_notEulerian();
+//    test_IsEulerian_notConnected();
+//
+//    test_EulerCircle_Directed();
+//    test_EulerCircle_Directed_2();
+//
+//    // Undirected graph:
+//    cout << endl<< endl  << "Undirected:" << endl;
+//    test_IsConnected_Undirected();
+//    test_IsConnected_Undirected_NotConnceted();
+//
+//    test_FindCircuit_Undirected();
+//    test_FindCircuit_Undirected_2();
+//
+//    test_IsEulerian_undirected();
+//    test_IsEulerian_undirected_notEulerian();
+//
+//    test_EulerCircle_undirected();
+//
+//    return 0;
+    char isDirected;
+    int numOfVertices;
     int numOfEdges;
-    std::vector<std::pair<int, int>> edges;
-    cout << "Is the graph directed: y/n" << endl;
-    cin >> directed >> numOfVer >> numOfEdges;
+    vector<pair<int, int>> edges;
+    cout << "Is the graph isDirected: y/n" << endl;
+    cin >> isDirected >> numOfVertices >> numOfEdges;
     edges = getEdges(numOfEdges);
-    Graph graph(directed == 'y', numOfVer, numOfEdges, edges);
-    graph.printGraph();
-//    cout << endl;
-//    graph.visit(graph.getVertices()[0]);
-//    graph.printGraph();
-//    cout << graph.isStronglyConnected() << endl;
-
+    bool isValid = checkValidation(isDirected, numOfVertices, numOfEdges, edges);
+    if (isValid) {
+        Graph graph(isDirected == 'y', numOfVertices, numOfEdges, edges);
+        if (graph.isEulerian()) {}
+        list<int> EulerCircle = graph.findEulerCircle();
+        printList(EulerCircle);
+    }
+    else {
+        cout << "invalid input!" << endl;
+    }
     return 0;
 }
-
 
 vector<pair<int, int>> getEdges(int numOfEdges) {
 
@@ -378,4 +389,31 @@ vector<pair<int, int>> getEdges(int numOfEdges) {
         edges.push_back(edge);
     }
     return edges;
+}
+
+bool checkValidation(char isDirected, int numOfVertices, int numOfEdges, vector<pair<int, int>> edges) {
+
+    int maxNumOfEdgesDirected = numOfVertices*(numOfVertices-1);
+    int maxNumOfEdgesUndirected  = (numOfVertices*(numOfVertices-1))/2;
+
+    if (isDirected !=  'n' && isDirected != 'y')
+        return false;
+    if (numOfVertices <= 0 || numOfEdges < 0)
+        return false;
+    if (isDirected ==  'n' && numOfEdges > maxNumOfEdgesUndirected)
+        return false;
+    if (isDirected == 'y' && numOfEdges > maxNumOfEdgesDirected)
+        return false;
+    for (int i = 0; i < edges.size(); i++) {
+        if (edges[i].first <= 0 || edges[i].first > numOfVertices || edges[i].second <= 0 || edges[i].second > numOfVertices)
+            return false;
+    }
+    return true;
+}
+
+void printList(list<int> myList) {
+    for (int curr : myList) {
+        cout << curr << " ";
+    }
+    cout << endl;
 }
